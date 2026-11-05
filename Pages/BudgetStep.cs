@@ -1,8 +1,12 @@
-﻿
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
 
 namespace HomeBuddy.QA.Tests.Pages.Wizard;
 
+/// <summary>
+/// Represents the budget selection step of the kitchen remodeling wizard.
+/// Provides locators and actions for selecting a budget range and
+/// continuing to the next step.
+/// </summary>
 public class BudgetStep
 {
     private readonly IPage _page;
@@ -11,10 +15,6 @@ public class BudgetStep
     {
         _page = page;
     }
-
-    // ==========================================
-    // STEP 7 - Budget Selection
-    // ==========================================
 
     private ILocator Step =>
         _page.Locator(".budgetStep");
@@ -27,8 +27,6 @@ public class BudgetStep
                 Name = "Do you know what your approximate budget is?",
                 Exact = true
             });
-
-    // Budget options - visible labels
 
     public ILocator UpTo5KOption =>
         Step.GetByText(
@@ -55,40 +53,46 @@ public class BudgetStep
             "Not sure",
             new() { Exact = true });
 
-    // Selected radio - useful for future assertions
-
     public ILocator Budget10KTo30KRadio =>
         Step.Locator(".budgetStep__grid .connectedCheckbox")
             .Filter(new() { HasText = "$10K to $30K" })
             .Locator("input[name='budget']");
 
-    // Next button
-
     public ILocator NextButton =>
         Step.Locator(
             "[data-autotest-button-submit-next]");
 
-    // ==========================================
-    // Actions
-    // ==========================================
-
+    /// <summary>
+    /// Selects the $10K to $30K budget range used in the
+    /// end-to-end lead submission scenario.
+    /// </summary>
     public async Task SelectBudget10KTo30KAsync()
     {
         await Budget10KTo30KOption.ClickAsync();
     }
 
+    /// <summary>
+    /// Attempts to select the "Not sure" budget option.
+    /// Available for separate negative and exploratory test scenarios.
+    /// </summary>
     public async Task SelectNotSureAsync()
     {
         await NotSureOption.ClickAsync();
     }
 
+    /// <summary>
+    /// Advances to the next wizard step using the Next button.
+    /// </summary>
     public async Task ContinueAsync()
     {
         await NextButton.ClickAsync();
     }
 
-    // Main E2E happy-path action
-
+    /// <summary>
+    /// Completes the budget selection step for TC-010.
+    /// Waits for the budget question, selects the $10K to $30K
+    /// range, and proceeds to the customer contact information step.
+    /// </summary>
     public async Task CompleteAsync()
     {
         await Question.WaitForAsync();

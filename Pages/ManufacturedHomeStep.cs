@@ -1,8 +1,12 @@
-﻿
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
 
 namespace HomeBuddy.QA.Tests.Pages.Wizard;
 
+/// <summary>
+/// Represents the manufactured home qualification step of the kitchen
+/// remodeling wizard. Provides locators and actions for identifying
+/// whether the property is a mobile, modular, or manufactured home.
+/// </summary>
 public class ManufacturedHomeStep
 {
     private readonly IPage _page;
@@ -11,10 +15,6 @@ public class ManufacturedHomeStep
     {
         _page = page;
     }
-
-    // ==========================================
-    // STEP 4 - Manufactured Home
-    // ==========================================
 
     private ILocator Step =>
         _page.Locator("#StepBodyId");
@@ -28,8 +28,6 @@ public class ManufacturedHomeStep
                 Exact = true
             });
 
-    // Radio inputs - useful for checking selection state
-
     public ILocator YesRadio =>
         Step.Locator(
             "[data-autotest-radio-internalmobilehome-yes]");
@@ -37,8 +35,6 @@ public class ManufacturedHomeStep
     public ILocator NoRadio =>
         Step.Locator(
             "[data-autotest-radio-internalmobilehome-no]");
-
-    // Visible labels - used for clicking
 
     public ILocator YesOption =>
         Step.Locator(
@@ -48,33 +44,41 @@ public class ManufacturedHomeStep
         Step.Locator(
             "[data-autotest-radio-internalmobilehome-no] + label");
 
-    // Next button
-
     public ILocator NextButton =>
         Step.Locator(
             "[data-autotest-button-submit-next]");
 
-    // ==========================================
-    // Actions
-    // ==========================================
-
+    /// <summary>
+    /// Selects "Yes" to indicate that the property is a mobile,
+    /// modular, or manufactured home.
+    /// </summary>
     public async Task SelectYesAsync()
     {
         await YesOption.ClickAsync();
     }
 
+    /// <summary>
+    /// Selects "No" to indicate that the property is not a mobile,
+    /// modular, or manufactured home.
+    /// </summary>
     public async Task SelectNoAsync()
     {
         await NoOption.ClickAsync();
     }
 
+    /// <summary>
+    /// Advances to the next wizard step using the Next button.
+    /// </summary>
     public async Task ContinueAsync()
     {
         await NextButton.ClickAsync();
     }
 
-    // Main E2E happy-path action
-
+    /// <summary>
+    /// Completes the manufactured home qualification step for TC-010.
+    /// Waits for the question to appear, selects "No",
+    /// and proceeds to the homeowner authorization step.
+    /// </summary>
     public async Task CompleteAsync()
     {
         await Question.WaitForAsync();
