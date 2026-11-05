@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+	<NUnit>
+		<NumberOfTestWorkers>1</NumberOfTestWorkers>
+	</NUnit>
+
+	<Playwright>
+		<BrowserName>chromium</BrowserName>
+		<ExpectTimeout>10000</ExpectTimeout>
+		<LaunchOptions>
+			<Headless>false</Headless>
+			<Channel>msedge</Channel>
+			<SlowMo>200</SlowMo>
+		</LaunchOptions>
+	</Playwright>
+	<TestRunParameters>
+		<Parameter name="AppUrl"
+				   value="https://hb-test.stage.sirenltd.dev/" />
+
+		<Parameter name="HB_TEST_ZIP"
+				   value="10001" />
+		
+		<Parameter name="HB_TEST_FULL_NAME"
+			value="DoDo John" />
+
+		<Parameter name="HB_TEST_EMAIL"
+				   value="dodo_john@icloud.com" />
+
+		<Parameter name="HB_TEST_PHONE"
+				   value="2221231234" />
+	</TestRunParameters>
+</RunSettings>
